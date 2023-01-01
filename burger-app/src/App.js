@@ -1,13 +1,13 @@
 import "./App.css";
 import styled from "styled-components";
-import {Header, Banner, Main} from "./components";
+import {Header, Main, Footer} from "./components";
 
 function App() {
   return (
     <AppWrapper className="App">
       <Header />
-      <Banner />
       <Main />
+      <Footer />
     </AppWrapper>
   );
 }

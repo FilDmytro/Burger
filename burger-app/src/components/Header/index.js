@@ -4,7 +4,7 @@ function Header() {
     return (
         <HeadWrapper>
             <HeaderLogo />
-            <HeaderStyled>Blog Name</HeaderStyled>
+            <HeaderStyled>Burger House</HeaderStyled>
             <Main />
         </HeadWrapper>
     )
@@ -12,6 +12,8 @@ function Header() {
 
 const HeaderStyled = styled.h1({
     textAlign: "center",
+    paddingLeft: "100px",
+    color: "whitesmoke",
 })
 
 const HeadWrapper = styled.div({
@@ -19,14 +21,14 @@ const HeadWrapper = styled.div({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    background: "grey",
-    height: "48px",
+    background: "black",
+    height: "6%",
 })
 
 function HeaderLogo() {
     return (
         <LogoStyled>
-            <img src="#" alt="img"/>
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" width='38px'alt="img"/>
         </LogoStyled>
     )
 }
@@ -34,18 +36,16 @@ function HeaderLogo() {
 const LogoStyled = styled.div({
     width: "180px",
     height: "37px",
-    background: "#F1F2AE",
-    marginLeft: "25px",
+    marginLeft: "10px",
 })
 
 function Main() {
     return (
         <HeaderListStyled>
-            <HeaderItemStyled></HeaderItemStyled>
-            <HeaderItemStyled></HeaderItemStyled>
-            <HeaderItemStyled></HeaderItemStyled>
-            <HeaderItemStyled></HeaderItemStyled>
-            <HeaderItemStyled></HeaderItemStyled>
+            <HeaderItemStyled className="home">Home</HeaderItemStyled>
+            <HeaderItemStyled className="orders">Orders</HeaderItemStyled>
+            <HeaderItemStyled classNAme="contact">Contact</HeaderItemStyled>
+            <HeaderItemStyled classNAme="faq">FAQ</HeaderItemStyled>
         </HeaderListStyled>
     )
 }
@@ -53,6 +53,7 @@ function Main() {
 const HeaderListStyled = styled.ul({
     textDecoration: "none",
     display: "flex",
+    color: "whitesmoke",
 });
 
 const HeaderItemStyled = styled.li({
@@ -60,8 +61,6 @@ const HeaderItemStyled = styled.li({
     marginRight: "19px",
     width: "46px",
     height: "37px",
-    background: "#E7EFD6",
-
 })
 
 export default Header;

@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.prices {
+  display: flex;
+  flex-wrap: nowrap;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 5px;
+}
