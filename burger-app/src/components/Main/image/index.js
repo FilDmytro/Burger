@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const Image = ({ ingredient }) => {
+const Image = ({ ingredient, alt }) => {
   return (
     <ImageStyled
       src={require(`../../../../assets/images/${ingredient}.png`)}
-      alt="img"
+      alt={alt}
     />
   );
 };

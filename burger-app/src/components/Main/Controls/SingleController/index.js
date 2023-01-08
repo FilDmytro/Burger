@@ -1,11 +1,11 @@
 import Image from "../../image";
 import styled from "styled-components";
 
-const SingleController = ({ ingredient, ingredientAddingOrder }) => {
+const SingleController = ({ ingredient, quantityOfIngredient }) => {
   return (
     <SingleControllerStyled>
       <DecrementControllerStyled>-</DecrementControllerStyled>
-      <QuantytyControllsStyled>{ingredientAddingOrder}</QuantytyControllsStyled>
+      <QuantytyControllsStyled>{quantityOfIngredient}</QuantytyControllsStyled>
       <IncrementControllerStyled>+</IncrementControllerStyled>
       <Image ingredient={ingredient} />
     </SingleControllerStyled>

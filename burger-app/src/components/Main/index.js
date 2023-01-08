@@ -5,7 +5,7 @@ import Controls from "./Controls";
 import Burger from "./Burger";
 import axios from "axios";
 
-const baseUrl = "https://burger-api-xcwp.onrender.com/ingredients";
+const baseUrl = "https://burger-api-xcwp.onrender.com/";
 
 class Main extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class Main extends React.Component {
 
   componentDidMount = async () => {
     try {
-      const { data } = await axios.get(baseUrl);
+      const { data } = await axios.get(`${baseUrl}ingredients`);
       const ingredients = data.map((ingredient) => {
         return ingredient.name;
       });
@@ -40,7 +40,7 @@ class Main extends React.Component {
       this.setState({
         prices: data,
         ingredients: ingredients,
-        ingredientAddingOrder: quantities,
+        quantityOfIngredient: quantities,
       });
     } catch (error) {
       console.log("error");
@@ -52,7 +52,7 @@ class Main extends React.Component {
       prices,
       ingredients,
       // burgerCreator,
-      ingredientAddingOrder,
+      quantityOfIngredient,
       orderPrice,
     } = this.state;
 
@@ -67,7 +67,7 @@ class Main extends React.Component {
         <BurgerIngredientsWrapper>
           <Controls
             ingredients={ingredients}
-            ingredientAddingOrder={ingredientAddingOrder}
+            quantityOfIngredient={quantityOfIngredient}
           />
         </BurgerIngredientsWrapper>
       </MainWrapperStyled>

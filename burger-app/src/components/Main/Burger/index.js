@@ -5,9 +5,9 @@ const Burger = ({ orderPrice }) => {
   return (
     <BurgerWrapperStyled>
       <TotalPriceStyled>Total: {orderPrice}₴</TotalPriceStyled>
-      <Image ingredient={"top_bun"} alt="Top Bun" />
+      <Image ingredient="top_bun" alt="Top Bun" />
       <SpanStyled>Please, start by adding products...</SpanStyled>
-      <Image ingredient={"bottom_bun"} alt="Bottom Bun" />
+      <Image ingredient="bottom_bun" alt="Bottom Bun" />
     </BurgerWrapperStyled>
   );
 };

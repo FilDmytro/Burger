@@ -40,12 +40,12 @@ const LogoStyled = styled.div({
 })
 
 function Main() {
+    const menuItems= [ 'Home', 'Orders', 'Contact', 'FAQ' ];
     return (
         <HeaderListStyled>
-            <HeaderItemStyled className="home">Home</HeaderItemStyled>
-            <HeaderItemStyled className="orders">Orders</HeaderItemStyled>
-            <HeaderItemStyled classNAme="contact">Contact</HeaderItemStyled>
-            <HeaderItemStyled classNAme="faq">FAQ</HeaderItemStyled>
+            {menuItems.map((element, index) => (
+                <HeaderItemStyled key={element + index}>{element}</HeaderItemStyled>
+            ))}
         </HeaderListStyled>
     )
 }

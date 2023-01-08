@@ -1,14 +1,14 @@
 import SingleController from "./SingleController";
 import styled from "styled-components";
 
-const Controls = ({ ingredients, ingredientAddingOrder }) => {
+const Controls = ({ ingredients, quantityOfIngredient }) => {
   return (
     <ControlsStyled>
       {ingredients.map((ingredient) => (
         <SingleController
           key={ingredient}
           ingredient={ingredient}
-          ingredientAddingOrder={ingredientAddingOrder[ingredient]}
+          quantityOfIngredient={quantityOfIngredient[ingredient]}
         ></SingleController>
       ))}
     </ControlsStyled>
