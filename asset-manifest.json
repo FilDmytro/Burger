@@ -1,17 +1,24 @@
 {
   "files": {
     "main.css": "/burger/static/css/main.41eb7858.css",
-    "main.js": "/burger/static/js/main.7fbd69df.js",
+    "main.js": "/burger/static/js/main.6da3e2e5.js",
     "static/js/787.9241d6c7.chunk.js": "/burger/static/js/787.9241d6c7.chunk.js",
+    "static/media/onion.png": "/burger/static/media/onion.ea3eb52a0ae1594f7a67.png",
+    "static/media/pickle.png": "/burger/static/media/pickle.efb06e8080e3b3a8c0b0.png",
+    "static/media/tomato.png": "/burger/static/media/tomato.5dd3a023dde517de78dc.png",
+    "static/media/meat.png": "/burger/static/media/meat.5e7b4cc56998c5ea5c46.png",
+    "static/media/salad.png": "/burger/static/media/salad.35a04f31c643a99696a7.png",
+    "static/media/cheese.png": "/burger/static/media/cheese.49d51f3515c9ece92386.png",
+    "static/media/bacon.png": "/burger/static/media/bacon.f0fac70a552e11d553ad.png",
     "static/media/top_bun.png": "/burger/static/media/top_bun.ce0b272018c568eea39b.png",
     "static/media/bottom_bun.png": "/burger/static/media/bottom_bun.a4d7f40c0fae43db9caa.png",
     "index.html": "/burger/index.html",
     "main.41eb7858.css.map": "/burger/static/css/main.41eb7858.css.map",
-    "main.7fbd69df.js.map": "/burger/static/js/main.7fbd69df.js.map",
+    "main.6da3e2e5.js.map": "/burger/static/js/main.6da3e2e5.js.map",
     "787.9241d6c7.chunk.js.map": "/burger/static/js/787.9241d6c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.41eb7858.css",
-    "static/js/main.7fbd69df.js"
+    "static/js/main.6da3e2e5.js"
   ]
 }
