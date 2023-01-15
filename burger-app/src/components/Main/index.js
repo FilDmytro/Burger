@@ -13,19 +13,14 @@ class Main extends React.Component {
     this.state = {
       prices: [],
       ingredients: [],
-      ingredientAddingOrder: {
-        onion: 0,
-        cheese: 0,
-        pickle: 0,
-        tomato: 0,
-        meat: 0,
-        salad: 0,
-      },
+      ingredientsInOrder: [],
       orderPrice: "1.00",
+      loader: true,
     };
   }
 
   componentDidMount = async () => {
+    this.setState({ loader: true });
     try {
       const { data } = await axios.get(`${baseUrl}ingredients`);
       const ingredients = data.map((ingredient) => {
@@ -34,40 +29,126 @@ class Main extends React.Component {
 
       const quantities = data.reduce(
         (acc, curr) => ({ [curr.name]: 0, ...acc }),
-        {}
+        []
       );
 
       this.setState({
         prices: data,
         ingredients: ingredients,
-        quantityOfIngredient: quantities,
+        burgerConstructor: quantities,
+        loader: false,
       });
     } catch (error) {
       console.log("error");
     }
   };
 
+  findIngredientPrice = (ingredient) => {
+    return this.state.prices.find(
+      (price) => price.name === ingredient
+    ).price;
+  };
+
+  handleChangeIngredientQuantity = (event) => {
+    event.preventDefault();
+    const targetIngredient = event.target.dataset["ingredient"];
+    const targetAction = event.target.dataset.action;
+    const currentPrice = this.findIngredientPrice(targetIngredient);
+    let orderIngredients = false;
+
+    this.setState((prevState) => {
+      const copyBurgerConstructor = { ...prevState.burgerConstructor };
+      const copyIngredientsInOrder = [...prevState.ingredientsInOrder];
+
+      let newPrice = +prevState.orderPrice;
+
+      if (
+        targetAction === "increment" &&
+        copyBurgerConstructor[targetIngredient] < 5 &&
+        copyIngredientsInOrder.length < 10
+      ) {
+        newPrice += +currentPrice;
+        copyBurgerConstructor[targetIngredient]++;
+        copyIngredientsInOrder.push(targetIngredient);
+      }
+      if (
+        targetAction === "decrement" &&
+        copyBurgerConstructor[targetIngredient] > 0
+      ) {
+        newPrice -= +currentPrice;
+        copyBurgerConstructor[targetIngredient]--;
+
+        const index = copyIngredientsInOrder.lastIndexOf(targetIngredient);
+        copyIngredientsInOrder.splice(index, 1);
+      }
+      if (copyIngredientsInOrder.length > 0) {
+        orderIngredients = true;
+      }
+      return {
+        ...prevState,
+        ingredientsInOrder: copyIngredientsInOrder,
+        burgerConstructor: copyBurgerConstructor,
+        orderPrice: newPrice.toFixed(2),
+        orderIngredients,
+      };
+    });
+  }
+
+  dataCleaner = (event) => {
+    event.preventDefault();
+    const cleanerIngredient = event.target.dataset.action;
+
+    this.setState((prevState) => {
+      const cleaner = [];
+      let orderIngredients = false;
+      if (cleanerIngredient === "cleaner") {
+        for (const ingredient in this.state.burgerConstructor) {
+          cleaner[ingredient] = 0;
+        };
+      }
+      return {
+        ...prevState,
+        ingredientsInOrder: [],
+        burgerConstructor: cleaner,
+        orderIngredients,
+        orderPrice: "1.00",
+      }
+    })
+  }
+
   render() {
     const {
       prices,
       ingredients,
-      // burgerCreator,
-      quantityOfIngredient,
+      burgerConstructor,
+      ingredientsInOrder,
       orderPrice,
+      orderIngredients,
+      loader,
+      checkout,
     } = this.state;
-
+    
     return (
       <MainWrapperStyled>
         <BurgerPricesWrapper>
-          <Prices prices={prices} />
+          <Prices prices={prices} loader={loader}/>
         </BurgerPricesWrapper>
         <MyBurgerWrapperStyled>
-          <Burger orderPrice={orderPrice} />
+          <Burger
+            orderPrice={orderPrice}
+            burgerConstructor={burgerConstructor}
+            ingredientsInOrder={ingredientsInOrder}
+            orderIngredients={orderIngredients}
+            checkout={checkout}
+          />
         </MyBurgerWrapperStyled>
         <BurgerIngredientsWrapper>
           <Controls
             ingredients={ingredients}
-            quantityOfIngredient={quantityOfIngredient}
+            quantityOfIngredient={burgerConstructor}
+            updateBurger={this.handleChangeIngredientQuantity}
+            dataCleaner={this.dataCleaner}
+            loader={loader}
           />
         </BurgerIngredientsWrapper>
       </MainWrapperStyled>

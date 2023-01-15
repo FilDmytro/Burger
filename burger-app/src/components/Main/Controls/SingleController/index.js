@@ -1,12 +1,12 @@
 import Image from "../../image";
 import styled from "styled-components";
 
-const SingleController = ({ ingredient, quantityOfIngredient }) => {
+const SingleController = ({ ingredient, burgerConstructor, updateBurger }) => {
   return (
-    <SingleControllerStyled>
-      <DecrementControllerStyled>-</DecrementControllerStyled>
-      <QuantytyControllsStyled>{quantityOfIngredient}</QuantytyControllsStyled>
-      <IncrementControllerStyled>+</IncrementControllerStyled>
+    <SingleControllerStyled onClick={updateBurger} data-ingredient={ingredient}>
+      <DecrementControllerStyled data-action='decrement' data-ingredient={ingredient}>-</DecrementControllerStyled>
+      <QuantytyControllsStyled>{burgerConstructor}</QuantytyControllsStyled>
+      <IncrementControllerStyled data-action='increment' data-ingredient={ingredient}>+</IncrementControllerStyled>
       <Image ingredient={ingredient} />
     </SingleControllerStyled>
   );
@@ -27,6 +27,8 @@ const DecrementControllerStyled = styled.button({
   textAlign: "center",
   justifyContent: "center",
   fontWeight: "500",
+  cursor: 'pointer',
+  transition: 'all 0.25s',
 });
 
 const IncrementControllerStyled = styled.button({
@@ -37,6 +39,8 @@ const IncrementControllerStyled = styled.button({
   textAlign: "center",
   justifyContent: "center",
   fontWeight: "500",
+  cursor: 'pointer',
+  transition: 'all 0.25s',
 });
 
 const QuantytyControllsStyled = styled.span({
