@@ -2,12 +2,12 @@
 import styled from "styled-components";
 import Loader from "../Loader";
 
-const Prices = ({ prices, loader }) => {
+const Prices = ({ prices, Loading }) => {
   return (
     <PricesStyled>
       <HeaderPriceStyled> our Prices</HeaderPriceStyled>
-      {loader ? (
-        <Loader loader={loader} />
+      {Loading ? (
+        <Loader Loading={Loading} />
       ) : (
         <>
           {prices.map((el) => (

@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import Image from "../image";
 
-const Burger = ({ orderPrice, orderIngredients, ingredientsInOrder, checkout }) => {
+const Burger = ({
+  orderPrice,
+  orderIngredients,
+  ingredientsInOrder,
+  checkout,
+}) => {
   return (
     <BurgerWrapperStyled>
       <TotalPriceStyled>Total: {orderPrice}₴</TotalPriceStyled>
@@ -12,26 +17,28 @@ const Burger = ({ orderPrice, orderIngredients, ingredientsInOrder, checkout }) 
         <SpanStyled>Please, start by adding products...</SpanStyled>
       )}
       <IngredientWrapperStyled>
-      {orderIngredients ? (
-        ingredientsInOrder.map((element, index) => {
-          return (
-            <IngredientsStyled
-              key={element + index}
-              src={require(`../../../../assets/images/updateBurgerImg/${element}.png`)}
-              alt={element}
-              style={{
-                bottom: 300 + index * 10,
-                zIndex: index + 1,
-              }}
-            />
-          );
-        })
-      ) : (
-        <SpanStyled />
-      )}
+        {orderIngredients ? (
+          ingredientsInOrder.map((element, index) => {
+            return (
+              <IngredientsStyled
+                key={element + index}
+                src={require(`../../../../assets/images/updateBurgerImg/${element}.png`)}
+                alt={element}
+                style={{
+                  bottom: 300 + index * 10,
+                  zIndex: index + 1,
+                }}
+              />
+            );
+          })
+        ) : (
+          <></>
+        )}
       </IngredientWrapperStyled>
       <Image ingredient="bottom_bun" alt="Bottom Bun" />
-      <CheckoutBtnStyled onClick={checkout} data-action="checkout">Order</CheckoutBtnStyled>
+      <CheckoutBtnStyled onClick={checkout} data-action="checkout">
+        Order
+      </CheckoutBtnStyled>
     </BurgerWrapperStyled>
   );
 };
@@ -41,17 +48,23 @@ const BurgerWrapperStyled = styled.div({
   flexDirection: "column",
   alignItems: "center",
   width: "100%",
+  height: "100%",
 });
 
 const TotalPriceStyled = styled.h2({
   width: "100%",
+  margin: '50px',
 });
 
 const SpanStyled = styled.span({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   width: "100%",
   height: '20px',
   margin: '20px',
-  marginTop: '90px',
+  marginTop: '60px',
+  paddingBottom: '60px',
 });
 
 const IngredientsStyled = styled.img({

@@ -7,13 +7,13 @@ const Controls = ({
   quantityOfIngredient,
   updateBurger,
   dataCleaner,
-  loader,
+  Loading,
 }) => {
   return (
   <ControlsWrapperStyled>
     <ControlsStyled onClick={updateBurger}>
-      {loader ? (
-        <Loader loader={loader} />
+      {Loading ? (
+        <Loader Loading={Loading} />
       ) : (
         <>
           {ingredients.map((ingredient) => (

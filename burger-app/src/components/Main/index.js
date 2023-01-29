@@ -15,12 +15,12 @@ class Main extends React.Component {
       ingredients: [],
       ingredientsInOrder: [],
       orderPrice: "1.00",
-      loader: true,
+      Loading: true,
     };
   }
 
   componentDidMount = async () => {
-    this.setState({ loader: true });
+    this.setState({ Loading: true });
     try {
       const { data } = await axios.get(`${baseUrl}ingredients`);
       const ingredients = data.map((ingredient) => {
@@ -36,7 +36,7 @@ class Main extends React.Component {
         prices: data,
         ingredients: ingredients,
         burgerConstructor: quantities,
-        loader: false,
+        Loading: false,
       });
     } catch (error) {
       console.log("error");
@@ -124,14 +124,14 @@ class Main extends React.Component {
       ingredientsInOrder,
       orderPrice,
       orderIngredients,
-      loader,
+      Loading,
       checkout,
     } = this.state;
     
     return (
       <MainWrapperStyled>
         <BurgerPricesWrapper>
-          <Prices prices={prices} loader={loader}/>
+          <Prices prices={prices} Loading={Loading}/>
         </BurgerPricesWrapper>
         <MyBurgerWrapperStyled>
           <Burger
@@ -148,7 +148,7 @@ class Main extends React.Component {
             quantityOfIngredient={burgerConstructor}
             updateBurger={this.handleChangeIngredientQuantity}
             dataCleaner={this.dataCleaner}
-            loader={loader}
+            Loading={Loading}
           />
         </BurgerIngredientsWrapper>
       </MainWrapperStyled>
