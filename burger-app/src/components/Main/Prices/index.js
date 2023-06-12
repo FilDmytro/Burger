@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import Loader from "../Loader";
 
-const Prices = ({ prices, Loading }) => {
+const Prices = ({ data, Loading }) => {
   return (
     <PricesStyled>
       <HeaderPriceStyled> our Prices</HeaderPriceStyled>
@@ -10,7 +10,7 @@ const Prices = ({ prices, Loading }) => {
         <Loader Loading={Loading} />
       ) : (
         <>
-          {prices.map((el) => (
+          {data.map((el) => (
             <span className="prices" key={el._id}>
               {el.name}: {el.price} ₴
             </span>

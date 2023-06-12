@@ -1,12 +1,14 @@
 import Image from "../../image";
 import styled from "styled-components";
+import Icon from '@mui/material/Icon';
 
-const SingleController = ({ ingredient, burgerConstructor, updateBurger }) => {
+
+const SingleController = ({ ingredient, burgerConstructor, updateBurger, quantitiesOfIngredient }) => {
   return (
     <SingleControllerStyled onClick={updateBurger} data-ingredient={ingredient}>
-      <DecrementControllerStyled data-action='decrement' data-ingredient={ingredient}>-</DecrementControllerStyled>
-      <QuantytyControllsStyled>{burgerConstructor}</QuantytyControllsStyled>
-      <IncrementControllerStyled data-action='increment' data-ingredient={ingredient}>+</IncrementControllerStyled>
+      <Icon fontSize="small" style={{cursor: 'pointer'}} data-action='decrement' data-ingredient={ingredient}>remove_circle_out_lined_icon</Icon>
+      <QuantytyControllsStyled>{quantitiesOfIngredient}</QuantytyControllsStyled>
+      <Icon fontSize="small" style={{cursor: 'pointer'}} data-action='increment' data-ingredient={ingredient}>add_circle_out_line_icon</Icon>
       <Image ingredient={ingredient} />
     </SingleControllerStyled>
   );
@@ -17,30 +19,6 @@ const SingleControllerStyled = styled.div({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-around",
-});
-
-const DecrementControllerStyled = styled.button({
-  width: "15px",
-  height: "15px",
-  display: "flex",
-  alignItems: "center",
-  textAlign: "center",
-  justifyContent: "center",
-  fontWeight: "500",
-  cursor: 'pointer',
-  transition: 'all 0.25s',
-});
-
-const IncrementControllerStyled = styled.button({
-  width: "15px",
-  height: "15px",
-  display: "flex",
-  alignItems: "center",
-  textAlign: "center",
-  justifyContent: "center",
-  fontWeight: "500",
-  cursor: 'pointer',
-  transition: 'all 0.25s',
 });
 
 const QuantytyControllsStyled = styled.span({

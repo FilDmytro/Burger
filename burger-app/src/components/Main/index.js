@@ -1,166 +1,176 @@
-import React from "react";
 import styled from "styled-components";
 import Prices from "./Prices";
 import Controls from "./Controls";
 import Burger from "./Burger";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { getPrices } from "../apiCall";
+import Modal from "../Form";
 
-const baseUrl = "https://burger-api-xcwp.onrender.com/";
+const Main = () => {
+  const [data, setData] = useState([]);
+  const [orderStatus, setOrderStatus] = useState(false);
+  const [ingredientsInOrder, setIngredientsInOrder] = useState([]);
+  const [quantitiesOfIngredient, setQuantitiesOfIngredients] = useState(0);
+  const [orderPrice, setOrderPrice] = useState("1.00");
+  const [isLoading, setLoading] = useState(true);
+  const [modalActive, setModalActive] = useState(false);
+  const [totalOrderIngredients, setTotalOrderIngredients] = useState([]);
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      prices: [],
-      ingredients: [],
-      ingredientsInOrder: [],
-      orderPrice: "1.00",
-      Loading: true,
-    };
-  }
+  const getLoad = async () => {
+    const data = await getPrices();
+    return data;
+  };
 
-  componentDidMount = async () => {
-    this.setState({ Loading: true });
+  useEffect(() => {
     try {
-      const { data } = await axios.get(`${baseUrl}ingredients`);
-      const ingredients = data.map((ingredient) => {
-        return ingredient.name;
-      });
-
-      const quantities = data.reduce(
-        (acc, curr) => ({ [curr.name]: 0, ...acc }),
-        []
-      );
-
-      this.setState({
-        prices: data,
-        ingredients: ingredients,
-        burgerConstructor: quantities,
-        Loading: false,
+      getLoad().then((response) => {
+        setData(response.data);
+        setLoading(false);
       });
     } catch (error) {
       console.log("error");
     }
+  }, []);
+
+  const ingredients = data.map((ingredient) => {
+    return ingredient.name;
+  });
+
+  useEffect(() => {
+    const quantities = data.reduce(
+      (acc, curr) => ({ [curr.name]: 0, ...acc }),
+      []
+    );
+    setQuantitiesOfIngredients(quantities);
+  }, [data]);
+
+  const findIngredientPrice = (ingredient) => {
+    return data.find((price) => price.name === ingredient).price;
   };
 
-  findIngredientPrice = (ingredient) => {
-    return this.state.prices.find(
-      (price) => price.name === ingredient
-    ).price;
-  };
-
-  handleChangeIngredientQuantity = (event) => {
-    event.preventDefault();
+  const handleChangeIngredientQuantity = (event) => {
     const targetIngredient = event.target.dataset["ingredient"];
     const targetAction = event.target.dataset.action;
-    const currentPrice = this.findIngredientPrice(targetIngredient);
-    let orderIngredients = false;
+    const currentPrice = findIngredientPrice(targetIngredient);
 
-    this.setState((prevState) => {
-      const copyBurgerConstructor = { ...prevState.burgerConstructor };
-      const copyIngredientsInOrder = [...prevState.ingredientsInOrder];
+    const copyQuantitiesOfIngredient = { ...quantitiesOfIngredient };
+    const copyIngredientsInOrder = [...ingredientsInOrder];
+    let orderStatus = false;
+    let newOrderPrice = +orderPrice;
 
-      let newPrice = +prevState.orderPrice;
+    if (
+      targetAction === "increment" &&
+      copyQuantitiesOfIngredient[targetIngredient] < 5 &&
+      copyIngredientsInOrder.length < 10
+    ) {
+      newOrderPrice += +currentPrice;
+      copyQuantitiesOfIngredient[targetIngredient]++;
+      copyIngredientsInOrder.push(targetIngredient);
+    }
+    if (
+      targetAction === "decrement" &&
+      copyQuantitiesOfIngredient[targetIngredient] > 0
+    ) {
+      newOrderPrice -= +currentPrice;
+      copyQuantitiesOfIngredient[targetIngredient]--;
 
-      if (
-        targetAction === "increment" &&
-        copyBurgerConstructor[targetIngredient] < 5 &&
-        copyIngredientsInOrder.length < 10
-      ) {
-        newPrice += +currentPrice;
-        copyBurgerConstructor[targetIngredient]++;
-        copyIngredientsInOrder.push(targetIngredient);
-      }
-      if (
-        targetAction === "decrement" &&
-        copyBurgerConstructor[targetIngredient] > 0
-      ) {
-        newPrice -= +currentPrice;
-        copyBurgerConstructor[targetIngredient]--;
+      const index = copyIngredientsInOrder.lastIndexOf(targetIngredient);
+      copyIngredientsInOrder.splice(index, 1);
+    }
+    if (copyIngredientsInOrder.length > 0) {
+      orderStatus = true;
+    }
+    setQuantitiesOfIngredients(copyQuantitiesOfIngredient);
+    setIngredientsInOrder(copyIngredientsInOrder);
+    setOrderPrice(newOrderPrice.toFixed(2));
+    setOrderStatus(orderStatus);
+  };
 
-        const index = copyIngredientsInOrder.lastIndexOf(targetIngredient);
-        copyIngredientsInOrder.splice(index, 1);
-      }
-      if (copyIngredientsInOrder.length > 0) {
-        orderIngredients = true;
-      }
-      return {
-        ...prevState,
-        ingredientsInOrder: copyIngredientsInOrder,
-        burgerConstructor: copyBurgerConstructor,
-        orderPrice: newPrice.toFixed(2),
-        orderIngredients,
-      };
-    });
-  }
-
-  dataCleaner = (event) => {
-    event.preventDefault();
+  const clearAll = (event) => {
     const cleanerIngredient = event.target.dataset.action;
+    const cleaner = [];
 
-    this.setState((prevState) => {
-      const cleaner = [];
-      let orderIngredients = false;
-      if (cleanerIngredient === "cleaner") {
-        for (const ingredient in this.state.burgerConstructor) {
-          cleaner[ingredient] = 0;
-        };
+    if (cleanerIngredient === "cleaner") {
+      for (const ingredient in quantitiesOfIngredient) {
+        cleaner[ingredient] = 0;
       }
-      return {
-        ...prevState,
-        ingredientsInOrder: [],
-        burgerConstructor: cleaner,
-        orderIngredients,
-        orderPrice: "1.00",
-      }
-    })
-  }
+    }
+    setQuantitiesOfIngredients(cleaner);
+    setIngredientsInOrder([]);
+    setOrderStatus(false);
+    setOrderPrice("1.00");
+  };
 
-  render() {
-    const {
-      prices,
-      ingredients,
-      burgerConstructor,
-      ingredientsInOrder,
-      orderPrice,
-      orderIngredients,
-      Loading,
-      checkout,
-    } = this.state;
-    
-    return (
-      <MainWrapperStyled>
-        <BurgerPricesWrapper>
-          <Prices prices={prices} Loading={Loading}/>
-        </BurgerPricesWrapper>
-        <MyBurgerWrapperStyled>
-          <Burger
-            orderPrice={orderPrice}
-            burgerConstructor={burgerConstructor}
-            ingredientsInOrder={ingredientsInOrder}
-            orderIngredients={orderIngredients}
-            checkout={checkout}
-          />
-        </MyBurgerWrapperStyled>
-        <BurgerIngredientsWrapper>
-          <Controls
-            ingredients={ingredients}
-            quantityOfIngredient={burgerConstructor}
-            updateBurger={this.handleChangeIngredientQuantity}
-            dataCleaner={this.dataCleaner}
-            Loading={Loading}
-          />
-        </BurgerIngredientsWrapper>
-      </MainWrapperStyled>
-    );
-  }
-}
+  const cancelOrder = (event) => { 
+    const cancel = event.target.dataset.action;
+    let cancelOrder = true;
+
+    if (cancel === 'cancel') {
+      cancelOrder = false;
+    }
+    setModalActive(cancelOrder);
+  };
+
+
+  const checkout = (event) => {
+    const checkout = event.target.dataset.action;
+    const order = Object.entries(quantitiesOfIngredient);
+    const newOrder = [];
+
+    if (checkout === "checkout") {
+      order.forEach((ingredient) => {
+        if (ingredient[1] !== 0) {
+          newOrder.push(ingredient)
+        }
+      })
+    }
+    setModalActive(true);
+    setTotalOrderIngredients(newOrder);
+  };
+
+  return (
+    <MainWrapperStyled>
+      <BurgerPricesWrapper>
+        <Prices Loading={isLoading} data={data} />
+      </BurgerPricesWrapper>
+      <MyBurgerWrapperStyled>
+        <Burger
+          orderPrice={orderPrice}
+          ingredientsInOrder={ingredientsInOrder}
+          orderStatus={orderStatus}
+          checkout={checkout}
+          modalActive={modalActive}
+        />
+      </MyBurgerWrapperStyled>
+      <BurgerIngredientsWrapper>
+        <Controls
+          isLoading={isLoading}
+          ingredients={ingredients}
+          data={data}
+          quantitiesOfIngredient={quantitiesOfIngredient}
+          updateBurger={handleChangeIngredientQuantity}
+          clearAll={clearAll}
+        />
+      </BurgerIngredientsWrapper>
+      {modalActive ? (
+        <Modal
+          orderPrice={orderPrice}
+          totalOrderIngredients={totalOrderIngredients}
+          cancelOrder={cancelOrder}
+          clearAll={clearAll}
+        />
+      ) : (
+        <></>
+      )}
+    </MainWrapperStyled>
+  );
+};
 
 const MainWrapperStyled = styled.div({
   width: "100%",
   height: "88%",
   display: "flex",
-  justifyContent: "space-between",
+  justifyContent: "center",
   alignItems: "center",
 });
 
