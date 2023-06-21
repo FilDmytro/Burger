@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Button from '@mui/material/Button';
-import Icon from '@mui/material/Icon';
-
+import Button from "@mui/material/Button";
+import Icon from "@mui/material/Icon";
 
 const Burger = ({ orderPrice, orderStatus, ingredientsInOrder, checkout }) => {
   return (
@@ -43,7 +42,7 @@ const Burger = ({ orderPrice, orderStatus, ingredientsInOrder, checkout }) => {
         onClick={checkout}
         data-action="checkout"
       >
-        Order  
+        Order
         <Icon>add_shopping_cart_icon</Icon>
       </Button>
     </BurgerWrapperStyled>

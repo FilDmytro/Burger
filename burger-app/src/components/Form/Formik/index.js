@@ -1,10 +1,8 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import Button from '@mui/material/Button';
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import Button from "@mui/material/Button";
 
-
-
-const Basic = ({clearAll}) => (
+const Basic = ({ clearAll }) => (
   <div>
     <Formik
       initialValues={{ email: "", name: "", adress: "" }}
@@ -12,7 +10,7 @@ const Basic = ({clearAll}) => (
         const errors = {};
 
         if (!values.email) {
-          errors.email = "Required";
+          errors.email = "Enter your email";
         } else if (
           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
         ) {
@@ -20,23 +18,26 @@ const Basic = ({clearAll}) => (
         }
 
         if (!values.name) {
-          errors.name = "Required";
+          errors.name = "Enter your name";
         }
         if (!values.adress) {
-          errors.adress = "Required";
+          errors.adress = "Enter your adress";
         }
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values));
+          alert("Successfully");
           setSubmitting(false);
-        }, 400);
+        }, 1500);
       }}
     >
       {({ isSubmitting }) => (
         <Form className="input-form">
           <Field
+            size="small"
+            color="success"
             type="name"
             name="name"
             placeholder="Enter name"
@@ -45,6 +46,8 @@ const Basic = ({clearAll}) => (
           <ErrorMessage name="name" component="div" />
 
           <Field
+            size="small"
+            color="success"
             type="adress"
             name="adress"
             placeholder="Enter adress"
@@ -53,6 +56,8 @@ const Basic = ({clearAll}) => (
           <ErrorMessage name="adress" component="div" />
 
           <Field
+            size="small"
+            color="success"
             type="email"
             name="email"
             placeholder="Enter email"
@@ -64,8 +69,10 @@ const Basic = ({clearAll}) => (
             variant="outlined"
             color="inherit"
             type="submit"
-            style={{marginTop: "30px"}}
+            style={{ marginTop: "30px" }}
             disabled={isSubmitting}
+            onClick={clearAll}
+            data-action="cleaner"
           >
             Confirm
           </Button>

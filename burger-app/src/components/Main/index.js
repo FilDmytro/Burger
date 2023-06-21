@@ -4,7 +4,7 @@ import Controls from "./Controls";
 import Burger from "./Burger";
 import React, { useEffect, useState } from "react";
 import { getPrices } from "../apiCall";
-import Modal from "../Form";
+import ModalOrder from "../Form";
 
 const Main = () => {
   const [data, setData] = useState([]);
@@ -99,18 +99,20 @@ const Main = () => {
     setIngredientsInOrder([]);
     setOrderStatus(false);
     setOrderPrice("1.00");
+    setTimeout(() => {
+      setModalActive(false);
+    }, 1000);
   };
 
-  const cancelOrder = (event) => { 
+  const cancelOrder = (event) => {
     const cancel = event.target.dataset.action;
     let cancelOrder = true;
 
-    if (cancel === 'cancel') {
+    if (cancel === "cancel") {
       cancelOrder = false;
     }
     setModalActive(cancelOrder);
   };
-
 
   const checkout = (event) => {
     const checkout = event.target.dataset.action;
@@ -120,9 +122,9 @@ const Main = () => {
     if (checkout === "checkout") {
       order.forEach((ingredient) => {
         if (ingredient[1] !== 0) {
-          newOrder.push(ingredient)
+          newOrder.push(ingredient);
         }
-      })
+      });
     }
     setModalActive(true);
     setTotalOrderIngredients(newOrder);
@@ -153,7 +155,7 @@ const Main = () => {
         />
       </BurgerIngredientsWrapper>
       {modalActive ? (
-        <Modal
+        <ModalOrder
           orderPrice={orderPrice}
           totalOrderIngredients={totalOrderIngredients}
           cancelOrder={cancelOrder}
