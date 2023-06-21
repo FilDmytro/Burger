@@ -1,23 +1,20 @@
+import React from "react";
 import styled from "styled-components";
-import Image from "../image";
+import Button from "@mui/material/Button";
+import Icon from "@mui/material/Icon";
 
-const Burger = ({
-  orderPrice,
-  orderIngredients,
-  ingredientsInOrder,
-  checkout,
-}) => {
+const Burger = ({ orderPrice, orderStatus, ingredientsInOrder, checkout }) => {
   return (
     <BurgerWrapperStyled>
       <TotalPriceStyled>Total: {orderPrice}₴</TotalPriceStyled>
-      <Image ingredient="top_bun" alt="Top Bun" />
-      {orderIngredients ? (
+      <TopBunStyled src={require("../../images/top_bun.png")} alt="Top Bun" />
+      {orderStatus ? (
         <SpanStyled />
       ) : (
         <SpanStyled>Please, start by adding products...</SpanStyled>
       )}
       <IngredientWrapperStyled>
-        {orderIngredients ? (
+        {orderStatus ? (
           ingredientsInOrder.map((element, index) => {
             return (
               <IngredientsStyled
@@ -35,10 +32,19 @@ const Burger = ({
           <></>
         )}
       </IngredientWrapperStyled>
-      <Image ingredient="bottom_bun" alt="Bottom Bun" />
-      <CheckoutBtnStyled onClick={checkout} data-action="checkout">
+      <BottomBunStyled
+        src={require("../../images/bottom_bun.png")}
+        alt="Bottom Bun"
+      />
+      <Button
+        variant="outlined"
+        color="inherit"
+        onClick={checkout}
+        data-action="checkout"
+      >
         Order
-      </CheckoutBtnStyled>
+        <Icon>add_shopping_cart_icon</Icon>
+      </Button>
     </BurgerWrapperStyled>
   );
 };
@@ -53,41 +59,41 @@ const BurgerWrapperStyled = styled.div({
 
 const TotalPriceStyled = styled.h2({
   width: "100%",
-  margin: '50px',
+  margin: "50px",
 });
 
 const SpanStyled = styled.span({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   width: "100%",
-  height: '20px',
-  margin: '20px',
-  marginTop: '60px',
-  paddingBottom: '60px',
+  height: "20px",
+  margin: "20px",
+  marginTop: "30px",
+  paddingBottom: "30px",
 });
 
 const IngredientsStyled = styled.img({
-  width: '220px',
-  height: '100px',
-  margin: '-55px'
+  width: "220px",
+  height: "100px",
+  margin: "-55px",
 });
 
 const IngredientWrapperStyled = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  marginBottom: '-30px',
-})
+  display: "flex",
+  flexDirection: "column",
+  marginBottom: "-30px",
+});
 
-const CheckoutBtnStyled = styled.button({
-  justifyContent: 'center',
-  textAlign: 'center',
-  width: '80px',
-  height: '30px',
-  color: 'black',
-  fontWeight: '800',
-  marginTop: '25px',
-  cursor: 'pointer',
-})
+const TopBunStyled = styled.img({
+  top: 0,
+  zIndex: "11",
+  width: "240px",
+});
+
+const BottomBunStyled = styled.img({
+  width: "240px",
+  paddingBottom: "40px",
+});
 
 export default Burger;

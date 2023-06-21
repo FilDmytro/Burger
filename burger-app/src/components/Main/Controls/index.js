@@ -1,34 +1,45 @@
 import SingleController from "./SingleController";
 import styled from "styled-components";
 import Loader from "../Loader";
+import Button from '@mui/material/Button';
+import Icon from '@mui/material/Icon';
+
+
 
 const Controls = ({
   ingredients,
-  quantityOfIngredient,
+  quantitiesOfIngredient,
   updateBurger,
-  dataCleaner,
-  Loading,
+  clearAll,
+  isLoading,
 }) => {
   return (
-  <ControlsWrapperStyled>
-    <ControlsStyled onClick={updateBurger}>
-      {Loading ? (
-        <Loader Loading={Loading} />
-      ) : (
-        <>
-          {ingredients.map((ingredient) => (
-            <SingleController
-              key={ingredient}
-              ingredient={ingredient}
-              burgerConstructor={quantityOfIngredient[ingredient]}
-            ></SingleController>
-            
-          ))}
-        </>
-      )}
-    </ControlsStyled>
-    <ClearBtnStyled onClick={dataCleaner} data-action="cleaner">Clear</ClearBtnStyled>
-  </ControlsWrapperStyled>
+    <ControlsWrapperStyled>
+      <ControlsStyled onClick={updateBurger}>
+        {isLoading ? (
+          <Loader isLoading={isLoading} />
+        ) : (
+          <>
+            {ingredients.map((ingredient) => (
+              <SingleController
+                key={ingredient}
+                ingredient={ingredient}
+                quantitiesOfIngredient={quantitiesOfIngredient[ingredient]}
+              ></SingleController>
+            ))}
+          </>
+        )}
+      </ControlsStyled>
+      <Button
+        variant="outlined"
+        color="inherit"
+        onClick={clearAll}
+        data-action="cleaner"
+      >
+        Clear
+        <Icon>delete</Icon>
+      </Button>
+    </ControlsWrapperStyled>
   );
 };
 
@@ -37,18 +48,7 @@ const ControlsStyled = styled.div({
   display: "flex",
   alignItems: 'center',
   flexDirection: "column",
-});
-
-const ClearBtnStyled = styled.button({
-  display: 'flex',
-  justifyContent: 'center',
-  textAlign: 'center',
-  width: '80px',
-  height: '30px',
-  color: 'black',
-  fontWeight: '800',
-  marginTop: '25px',
-  cursor: 'pointer',
+  paddingBottom: "20px",
 });
 
 const ControlsWrapperStyled = styled.div({
