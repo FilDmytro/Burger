@@ -86,22 +86,16 @@ const Main = () => {
     setOrderStatus(orderStatus);
   };
 
-  const clearAll = (event) => {
-    const cleanerIngredient = event.target.dataset.action;
+  const clearAll = () => {
     const cleaner = [];
 
-    if (cleanerIngredient === "cleaner") {
-      for (const ingredient in quantitiesOfIngredient) {
-        cleaner[ingredient] = 0;
-      }
+    for (const ingredient in quantitiesOfIngredient) {
+      cleaner[ingredient] = 0;
     }
     setQuantitiesOfIngredients(cleaner);
     setIngredientsInOrder([]);
     setOrderStatus(false);
     setOrderPrice("1.00");
-    setTimeout(() => {
-      setModalActive(false);
-    }, 1000);
   };
 
   const cancelOrder = (event) => {
@@ -160,6 +154,8 @@ const Main = () => {
           totalOrderIngredients={totalOrderIngredients}
           cancelOrder={cancelOrder}
           clearAll={clearAll}
+          modalActive={modalActive}
+          setModalActive={setModalActive}
         />
       ) : (
         <></>

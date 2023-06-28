@@ -2,13 +2,14 @@ import styled from "styled-components";
 import Image from "../../components/Main/image/";
 import Basic from "./Formik";
 import Icon from "@mui/material/Icon";
-import { red } from "@mui/material/colors";
 
 const ModalOrder = ({
   orderPrice,
   totalOrderIngredients,
   cancelOrder,
   clearAll,
+  modalActive,
+  setModalActive,
 }) => {
   return (
     <ModalWrapperlStyled>
@@ -16,7 +17,7 @@ const ModalOrder = ({
         <ModalHeaderStyled>
           <TotalPriceStyled>Total: {orderPrice}₴</TotalPriceStyled>
           <Icon
-            sx={{ color: red[400], cursor: "pointer" }}
+            className="icon"
             onClick={cancelOrder}
             data-action="cancel"
           >
@@ -30,7 +31,7 @@ const ModalOrder = ({
           </OrderIngredientStyled>
         ))}
         <InputFormStyled>
-          <Basic clearAll={clearAll} />
+          <Basic clearAll={clearAll} modalActive={modalActive} setModalActive={setModalActive}/>
         </InputFormStyled>
       </ModalStyled>
     </ModalWrapperlStyled>
