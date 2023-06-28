@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Button from "@mui/material/Button";
 
-const Basic = ({ clearAll }) => (
+const Basic = ({ clearAll, setModalActive}) => (
   <div>
     <Formik
       initialValues={{ email: "", name: "", adress: "" }}
@@ -25,13 +25,13 @@ const Basic = ({ clearAll }) => (
         }
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={() => {
         setTimeout(() => {
-          // alert(JSON.stringify(values));
           alert("Successfully");
-          setSubmitting(false);
+          setModalActive(false);
+          clearAll()
         }, 1500);
-      }}
+      }} 
     >
       {({ isSubmitting }) => (
         <Form className="input-form">
@@ -71,8 +71,6 @@ const Basic = ({ clearAll }) => (
             type="submit"
             style={{ marginTop: "30px" }}
             disabled={isSubmitting}
-            onClick={clearAll}
-            data-action="cleaner"
           >
             Confirm
           </Button>

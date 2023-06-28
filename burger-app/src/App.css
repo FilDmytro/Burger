@@ -28,6 +28,30 @@
   color: #61dafb;
 }
 
+.icon {
+  color: red;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.icon:hover {
+  color: red;
+  opacity: 1;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.iconController {
+  cursor: pointer;
+}
+
+.iconController:hover {
+  cursor: pointer;
+  color: rgb(112, 109, 109);
+  border-radius: 25px;
+  transition: all 0.3s;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
